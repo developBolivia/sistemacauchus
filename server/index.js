@@ -1,29 +1,30 @@
-// 1. Cargamos las variables de entorno (.env) antes que cualquier otra cosa
 require('dotenv').config();
-
-// 2. Importamos las librerías necesarias
 const express = require('express');
 const cors = require('cors');
-
-// 3. Importamos nuestra función de conexión a la Base de Datos
 const conectarDB = require('./db');
 
-// 4. Inicializamos la aplicación de Express
+// Importar archivos de rutas
+const tipoProductoRoutes = require('./routes/tipoProductoRoutes');
+const productoRoutes = require('./routes/productoRoutes');
+
 const app = express();
 
-// 5. Ejecutamos la conexión a MongoDB Atlas
+// Conectar a la base de datos
 conectarDB();
 
-// 6. Middlewares (Filtros y traductores de peticiones)
-app.use(cors()); // Habilita peticiones cruzadas (permite que React se conecte al servidor)
-app.use(express.json()); // Permite recibir y procesar JSON en el cuerpo (body) de las peticiones
+// Middlewares
+app.use(cors());
+app.use(express.json());
 
-// 7. Ruta de prueba (Endpoint de verificación)
+// Enlazar Endpoints de la API
+app.use('/api/tipos-producto', tipoProductoRoutes);
+app.use('/api/productos', productoRoutes);
+
+// Ruta de prueba
 app.get('/', (req, res) => {
-  res.send('Servidor del Sistema de Cauchos funcionando y conectado a la Nube');
+  res.send('Servidor del Sistema de Cauchos funcionando');
 });
 
-// 8. Encendido del Servidor
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
