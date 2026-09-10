@@ -17,8 +17,10 @@ app.use(cors());
 app.use(express.json());
 
 // Enlazar Endpoints de la API
+app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/tipos-producto', tipoProductoRoutes);
 app.use('/api/productos', productoRoutes);
+app.use('/api/usuarios', require('./routes/usuarioRoutes'));
 
 // Ruta de prueba
 app.get('/', (req, res) => {
